@@ -1,7 +1,7 @@
 
 const admin = require("firebase-admin");
-
 const serviceAccount = require("./wildhabitatexercise-firebase-adminsdk-z62ei-63967fed83.json");
+
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
