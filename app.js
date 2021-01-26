@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const { getEvents, postEvent } = require('./src/events')
 const { getPeople, postPerson } = require('./src/users')
-const { getSingleEvent, deleteEvents } = require('./src/events/eventId')
+const { getSingleEvent, deleteEvent, updateEvent } = require('./src/events/eventId')
 const { getSinglePerson } = require('./src/users/userId')
 
 const app = express()
@@ -13,7 +13,8 @@ const port = 3001
 app.get('/events', getEvents)
 app.get('/events/:eventId', getSingleEvent)
 app.post('/events', postEvent)
-app.delete('/events/:eventId', deleteEvents)
+app.delete('/events/:eventId', deleteEvent)
+app.patch('/events/:eventId', updateEvent)
 
 app.get('/people', getPeople)
 app.get('/people/:userId', getSinglePerson)
