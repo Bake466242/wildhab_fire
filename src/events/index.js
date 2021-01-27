@@ -10,14 +10,13 @@ if (!admin.apps.length) {
   const eventsRef = firestore.collection('events')
   const eventProps = ['name', 'desc', 'hosted.by', 'link', 'sport', 'time']
 
-  exports.postEvent = (req, res) => {
+exports.postEvent = (req, res) => {
     if(!firestore) {
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount)
           })
           firestore = admin.firestore()
     }
-    console.log('req body', (req.body).length)
     if (Object.keys(req.body).length === 0 || req.body === undefined) {
         res.send({
             message: "No event defined"
@@ -76,7 +75,6 @@ if (!admin.apps.length) {
     })
 }
   
-
 exports.getEvents = (req, res) => {
     if(!firestore) {
         admin.initializeApp({

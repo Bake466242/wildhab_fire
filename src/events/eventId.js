@@ -51,11 +51,12 @@ exports.deleteEvent = (req, res) => {
     .doc(req.params.eventId)
     .delete()
     .then(() => {
-      res.status(204).json({
+      res.status(200).json({
         status: "success",
         message: "Events DELETED",
-        statusCode: 204,
+        statusCode: 200,
       });
+      return
     })
     .catch((err) => {
       res.status(500).json({

@@ -8,14 +8,41 @@ if (!admin.apps.length) {
     }
   const firestore = admin.firestore()
   const peopleRef = firestore.collection('people')
+  const peopleProps = ['first_name', 'last_name', 'profile_pic', 'id']
 
-  exports.postPerson = (req, res) => {
+exports.postPerson = (req, res) => {
     if(!firestore) {
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount)
           })
           firestore = admin.firestore()
     }
+    if(Object.keys(req.body).length === 0 || req.body === undefined){
+      res.send({
+        message: "No person defined"
+      })
+      return
+    }
+    const invalidProps = (Object.keys(req.body)).some(key => !peopleProps.includes(key))
+    if (invalidProps){
+        res.send({
+            message: "Invalid field"
+        })
+        return
+    }
+    if(req.body.first_name === null){
+      res.send({
+          message: "Person's name required"
+      })
+      return
+  }
+  if(typeof req.body.first_name !== 'string'){
+      res.send({
+          message: "Invalid persons' name"
+      })
+      return
+  }
+
     let newPerson = req.body
     let now = admin.firestore.FieldValue.serverTimestamp()
     newPerson.updated = now
