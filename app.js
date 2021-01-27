@@ -4,6 +4,7 @@ const { getEvents, postEvent } = require('./src/events')
 const { getPeople, postPerson } = require('./src/users')
 const { getSingleEvent, deleteEvent, updateEvent } = require('./src/events/eventId')
 const { getSinglePerson, deletePerson, updatePerson } = require('./src/users/userId')
+const { getCategories, postCategory } = require('./src/categories')
 
 const app = express()
 app.use(bodyParser.json())
@@ -22,6 +23,8 @@ app.post('/people', postPerson)
 app.delete('/people/:userId', deletePerson)
 app.patch('/people/:userId', updatePerson)
 
+app.get('/categories', getCategories)
+app.post('/categories', postCategory)
 
 app.get('/', (req, res) => {
     res.status(200).send('Hello There...General Kenobi')
