@@ -8,6 +8,7 @@ if (!admin.apps.length) {
     }
   const firestore = admin.firestore()
   const eventsRef = firestore.collection('events')
+  const eventProps = ['name', 'desc', 'hosted.by', 'link', 'sport', 'time']
 
   exports.postEvent = (req, res) => {
     if(!firestore) {
@@ -16,6 +17,34 @@ if (!admin.apps.length) {
           })
           firestore = admin.firestore()
     }
+    console.log('req body', (req.body).length)
+    if (Object.keys(req.body).length === 0 || req.body === undefined) {
+        res.send({
+            message: "No event defined"
+        })
+        return
+    }
+    const invalidProps = (Object.keys(req.body)).some(key => !eventProps.includes(key))
+    if (invalidProps){
+        res.send({
+            message: "Invalid field"
+        })
+        return
+    }
+
+    if(req.body.name === null){
+        res.send({
+            message: "Event name required"
+        })
+        return
+    }
+    if(typeof req.body.name !== 'string'){
+        res.send({
+            message: "Invalid event name"
+        })
+        return
+    }
+
     let newEvent = req.body
     let now = admin.firestore.FieldValue.serverTimestamp()
     newEvent.updated = now
